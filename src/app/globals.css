@@ -1,0 +1,406 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+:root {
+  --stage: #14100d;
+  --stage-2: #1e1814;
+  --cream: #f4efe7;
+  --paper: #fbf8f3;
+  --ink: #221a15;
+  --muted: #8a7f74;
+  --hairline: #e3dace;
+  --oak: #c49a6c;
+  --glow: #ffb35c;
+  --gutter: clamp(20px, 5vw, 72px);
+}
+
+@theme inline {
+  --color-stage: var(--stage);
+  --color-stage-2: var(--stage-2);
+  --color-cream: var(--cream);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-hairline: var(--hairline);
+  --color-oak: var(--oak);
+  --color-glow: var(--glow);
+  --font-sans: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --radius-card: 28px;
+}
+
+html {
+  background: var(--stage);
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--stage);
+  color: var(--cream);
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 1.55;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--oak) 45%, transparent);
+}
+
+/* ---------- типографика ---------- */
+
+.t-display,
+.t-h1,
+.t-h2,
+.t-h3 {
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.t-display {
+  font-size: clamp(48px, 5.8vw, 96px);
+  line-height: 0.98;
+}
+.t-h1 {
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: 1.02;
+}
+.t-h2 {
+  font-size: clamp(32px, 3.9vw, 56px);
+  line-height: 1.05;
+}
+.t-h3 {
+  font-size: clamp(28px, 2.8vw, 40px);
+  line-height: 1.1;
+}
+.t-body {
+  font-size: 18px;
+  line-height: 1.55;
+  max-width: 60ch;
+  text-wrap: pretty;
+}
+.t-caption {
+  font-size: 13px;
+  line-height: 1.3;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  font-size: 1.1em;
+  line-height: 0.9;
+  padding-right: 0.04em;
+}
+
+/* ---------- кнопки ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 28px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  transition:
+    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.3s,
+    color 0.3s,
+    opacity 0.3s;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-cream {
+  background: var(--cream);
+  color: var(--ink);
+}
+.btn-cream:hover {
+  background: #fff;
+}
+.btn-ink {
+  background: var(--ink);
+  color: var(--cream);
+}
+.btn-ink:hover {
+  background: #000;
+}
+.btn-quiet {
+  min-height: 52px;
+  padding: 0 6px;
+  color: inherit;
+  gap: 12px;
+}
+.btn-quiet:hover .btn-quiet__icon {
+  border-color: currentColor;
+}
+.btn-quiet__icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, currentColor 30%, transparent);
+  transition: border-color 0.3s;
+}
+
+:focus-visible {
+  outline: 2px solid var(--glow);
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+.btn:focus-visible {
+  border-radius: 999px;
+}
+
+/* ---------- раскладка ---------- */
+
+.wrap {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.card {
+  border-radius: var(--radius-card);
+}
+
+.hairline {
+  border-color: var(--hairline);
+}
+
+/* появление заголовка построчно — прячем только если есть JS */
+.line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.line > span {
+  display: inline-block;
+  will-change: transform;
+}
+html.js:not([data-mode="static"]) [data-reveal] {
+  opacity: 0;
+}
+
+/* заглушка сцены, пока грузится 3D */
+.scene-placeholder {
+  background:
+    radial-gradient(40% 18% at var(--px, 62%) var(--py, 74%), rgba(255, 179, 92, 0.16), transparent 70%),
+    radial-gradient(60% 50% at 40% 38%, rgba(74, 46, 28, 0.55), transparent 70%), var(--stage);
+}
+
+/* ---------- мини-рамка (CSS) ---------- */
+
+.mini-frame {
+  --wood: #e6d3b3;
+  --glow-level: 0.3;
+  position: relative;
+  aspect-ratio: 233 / 182;
+  width: 100%;
+}
+.mini-frame__body {
+  position: absolute;
+  inset: 0;
+  border-radius: 7.3% / 9.3%;
+  padding: 6.4% 6.4%;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 30%, rgba(0, 0, 0, 0.1)),
+    repeating-linear-gradient(178deg, rgba(60, 30, 10, 0.05) 0 1px, transparent 1px 6px),
+    repeating-linear-gradient(181deg, rgba(60, 30, 10, 0.04) 0 2px, transparent 2px 11px), var(--wood);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.16),
+    0 36px 40px -34px rgba(0, 0, 0, 0.55);
+  z-index: 1;
+}
+.mini-frame__screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 1.6%;
+  overflow: hidden;
+  background: #2a1f18;
+}
+.mini-frame__screen > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mini-frame__glow {
+  position: absolute;
+  left: -6%;
+  right: -6%;
+  top: 92%;
+  height: 46%;
+  background: radial-gradient(50% 55% at 50% 0%, rgba(255, 179, 92, 0.85), rgba(255, 179, 92, 0.18) 55%, transparent 75%);
+  opacity: var(--glow-level);
+  filter: blur(4px);
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.2s linear;
+}
+.mini-frame__glow::after {
+  content: "";
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  top: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: #ffd7a3;
+  box-shadow: 0 0 12px 3px rgba(255, 179, 92, 0.9);
+}
+
+/* ---------- анимации карточек «как это работает» ---------- */
+
+@keyframes lid {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(-3.5deg);
+  }
+}
+@keyframes bars {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+@keyframes fly {
+  0%,
+  18% {
+    transform: translate(0, 0) scale(1) rotate(0);
+    opacity: 0;
+  }
+  24% {
+    opacity: 1;
+  }
+  62% {
+    transform: translate(var(--fx), var(--fy)) scale(0.55) rotate(6deg);
+    opacity: 1;
+  }
+  70%,
+  100% {
+    transform: translate(var(--fx), var(--fy)) scale(0.5) rotate(6deg);
+    opacity: 0;
+  }
+}
+@keyframes land {
+  0%,
+  60% {
+    --glow-level: 0.15;
+  }
+  68% {
+    --glow-level: 1;
+  }
+  100% {
+    --glow-level: 0.2;
+  }
+}
+@keyframes breathe {
+  0%,
+  100% {
+    --glow-level: 0.25;
+  }
+  50% {
+    --glow-level: 0.9;
+  }
+}
+@keyframes wave {
+  0% {
+    stroke-dashoffset: 400;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  60% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  80%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+@keyframes ping {
+  0%,
+  55% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  65%,
+  92% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
+@keyframes pulse-dot {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+@property --glow-level {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0.3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
