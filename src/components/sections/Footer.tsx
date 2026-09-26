@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { BRAND_NAME, CONTACTS, LEGAL } from "@/config/brand";
 
 export function Footer() {
@@ -24,9 +23,9 @@ export function Footer() {
           </div>
           <div className="grid content-start gap-3 text-[15px]">
             <p className="t-caption mb-2 text-cream/55">Документы</p>
-            <Link href="/privacy" className="text-cream/75 hover:text-cream">
+            <a href="/privacy" className="text-cream/75 hover:text-cream">
               Политика конфиденциальности
-            </Link>
+            </a>
           </div>
         </div>
         <div className="flex flex-col justify-between gap-4 pt-8 text-[13px] text-cream/35 md:flex-row">

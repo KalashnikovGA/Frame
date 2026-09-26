@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import { PRICE_NOTE, formatPrice, getPrice, modelLabel } from "@/config/pricing";
 import { ModelPicker } from "@/components/ui/ModelPicker";
 import { useStore } from "@/lib/store";
@@ -156,9 +155,9 @@ export function Preorder() {
                   />
                   <span>
                     Согласен на обработку персональных данных в соответствии с{" "}
-                    <Link href="/privacy" className="underline decoration-white/30 underline-offset-4 hover:decoration-cream">
+                    <a href="/privacy" className="underline decoration-white/30 underline-offset-4 hover:decoration-cream">
                       политикой конфиденциальности
-                    </Link>
+                    </a>
                   </span>
                 </label>
                 {errors.consent && (

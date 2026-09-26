@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { BRAND_NAME, CONTACTS, LEGAL } from "@/config/brand";
 
 export const metadata: Metadata = {
@@ -11,9 +10,9 @@ export default function PrivacyPage() {
   return (
     <main data-theme="light" className="min-h-screen bg-cream py-20 text-ink md:py-28">
       <article className="wrap max-w-[820px]">
-        <Link href="/" className="text-[15px] text-muted hover:text-ink">
+        <a href="/" className="text-[15px] text-muted hover:text-ink">
           ← {BRAND_NAME}
-        </Link>
+        </a>
         <h1 className="t-h2 mt-10">Политика конфиденциальности</h1>
         <p className="mt-4 text-[14px] text-muted">Черновик. Финальный текст будет согласован с юристом до начала продаж.</p>
         <div className="mt-12 grid gap-8 text-[17px] leading-[1.65] text-ink/80">
