@@ -16,7 +16,7 @@ export function Preorder() {
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<PreorderErrors>({});
   const [status, setStatus] = useState<Status>("idle");
-  const [done, setDone] = useState<{ name: string; model: string } | null>(null);
+  const [done, setDone] = useState<{ name: string; model: string; demo?: boolean } | null>(null);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,6 +29,12 @@ export function Preorder() {
       return;
     }
     setStatus("sending");
+    // статическая демо-версия: сервера нет, заявку не отправляем и честно об этом говорим
+    if (process.env.NEXT_PUBLIC_STATIC_DEMO === "1") {
+      setDone({ name: name.trim(), model: modelLabel(size, species), demo: true });
+      setStatus("done");
+      return;
+    }
     try {
       const res = await fetch("/api/preorder", {
         method: "POST",
@@ -79,9 +85,15 @@ export function Preorder() {
             <div className="flex min-h-[420px] flex-col justify-center" role="status">
               <span className="mb-8 block h-[3px] w-16 rounded-full bg-glow shadow-[0_0_18px_4px_rgba(255,179,92,0.55)]" />
               <p className="t-h3">Спасибо, {done.name}.</p>
-              <p className="t-body mt-4 text-cream/65">
-                Мы записали ваш предзаказ: {done.model}. Напишем, как только начнём производство. Платить сейчас ничего не нужно.
-              </p>
+              {done.demo ? (
+                <p className="t-body mt-4 text-cream/65">
+                  Это демо-версия сайта, поэтому заявка на {done.model} никуда не отправлена. В рабочей версии она придёт нам, и мы напишем, как только начнём производство.
+                </p>
+              ) : (
+                <p className="t-body mt-4 text-cream/65">
+                  Мы записали ваш предзаказ: {done.model}. Напишем, как только начнём производство. Платить сейчас ничего не нужно.
+                </p>
+              )}
             </div>
           ) : (
             <form onSubmit={submit} noValidate className="grid gap-7">
