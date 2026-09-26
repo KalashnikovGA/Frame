@@ -3,11 +3,13 @@ import { PRICES, SIZES, SPECIES } from "@/config/pricing";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/sections/Hero";
 import { Anatomy } from "@/components/sections/Anatomy";
+import { Light } from "@/components/sections/Light";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { ThinkOfYou } from "@/components/sections/ThinkOfYou";
 import { Night } from "@/components/sections/Night";
 import { Configurator } from "@/components/sections/Configurator";
 import { Voice } from "@/components/sections/Voice";
+import { Specs } from "@/components/sections/Specs";
 import { Privacy } from "@/components/sections/Privacy";
 import { Preorder } from "@/components/sections/Preorder";
 import { Faq } from "@/components/sections/Faq";
@@ -52,10 +54,12 @@ export default function Page() {
       <main>
         <Hero />
         <Anatomy />
+        <Light />
         <HowItWorks />
         <ThinkOfYou />
         <Night />
         <Configurator />
+        <Specs />
         <Voice />
         <Privacy />
         <Preorder />

@@ -19,11 +19,13 @@ export function createPoolMaterial(color: string) {
       uHalfW: { value: 1 },
       uFront: { value: 1 },
       uBack: { value: 0.5 },
+      uRipple: { value: 1 },
+      uRippleAmp: { value: 0 },
     },
     vertexShader: vert,
     fragmentShader: /* glsl */ `
       uniform vec3 uColor;
-      uniform float uIntensity, uHalfW, uFront, uBack;
+      uniform float uIntensity, uHalfW, uFront, uBack, uRipple, uRippleAmp;
       varying vec2 vPos;
       varying vec2 vUv;
       void main() {
@@ -37,7 +39,11 @@ export function createPoolMaterial(color: string) {
         float core = exp(-d * 5.0);
         float wide = exp(-d * 1.1) * 0.32;
         float edge = exp(-(zz * zz) * 60.0) * step(abs(x), uHalfW * 0.9) * 0.6;
-        vec3 c = uColor * (core + wide + edge) * uIntensity * fade;
+        // волна света, расходящаяся от основания
+        float rd = length(vec2(max(abs(x) - uHalfW * 0.5, 0.0), z * 1.25));
+        float rr = uRipple * 2.6;
+        float ring = exp(-pow((rd - rr) * 5.0, 2.0)) * (1.0 - uRipple) * uRippleAmp * smoothstep(0.0, 0.08, uRipple);
+        vec3 c = uColor * ((core + wide + edge) * uIntensity + ring * 0.9) * fade;
         gl_FragColor = vec4(c, 1.0);
         #include <colorspace_fragment>
       }

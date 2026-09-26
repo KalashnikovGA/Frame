@@ -42,9 +42,9 @@ export function Configurator() {
       createCtl({
         species: useStore.getState().species,
         scale: scaleFor(useStore.getState().size),
-        camY: 2.1,
-        camZ: 11.5,
-        tgtY: 1.05,
+        camY: 2.3,
+        camZ: 12,
+        tgtY: 1.1,
         glow: 0.35,
         breath: 1,
         pointer: 0.5,
@@ -57,7 +57,20 @@ export function Configurator() {
 
   useEffect(() => {
     ctl.species = species;
+    ctl.ripple++;
   }, [species, ctl]);
+
+  // на широком экране сцена левее панели выбора
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const apply = () => {
+      ctl.shiftX = mq.matches ? -0.14 : 0;
+      ctl.minAspect = mq.matches ? 1.9 : 1.4;
+    };
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, [ctl]);
 
   useEffect(() => {
     const t = gsap.to(ctl, { scale: scaleFor(size), duration: 1.1, ease: "expo.out" });
@@ -67,58 +80,56 @@ export function Configurator() {
   }, [size, ctl]);
 
   return (
-    <section id="models" data-theme="dark" className="relative bg-stage py-20 md:py-28" aria-labelledby="models-title">
-      <div className="wrap grid items-center gap-10 lg:grid-cols-[1.45fr_1fr] lg:gap-16">
-        <div className="card relative h-[58svh] min-h-[340px] overflow-hidden bg-stage-2 lg:h-[76svh]">
-          <SceneSlot ctl={ctl} fallback={<StaticPreview />} className="absolute inset-0" />
-          <p className="t-caption pointer-events-none absolute bottom-5 left-6 text-cream/55">
-            {sizeInfo.label} · экран {sizeInfo.screen}
-          </p>
-        </div>
+    <section id="models" data-theme="dark" className="relative bg-stage" aria-labelledby="models-title">
+      <div className="relative flex flex-col md:block md:h-[100svh] md:min-h-[760px]">
+        <SceneSlot ctl={ctl} fallback={<StaticPreview />} className="relative h-[62svh] min-h-[380px] md:absolute md:inset-0 md:h-auto" />
+        <p className="t-caption pointer-events-none absolute bottom-6 left-[var(--gutter)] z-10 text-cream/55 max-md:top-[calc(62svh-40px)] max-md:bottom-auto">
+          {sizeInfo.label} · экран {sizeInfo.screen} · рамка {sizeInfo.outer}
+        </p>
 
-        <div>
-          <p className="t-caption mb-6 text-cream/50">Материалы и размеры</p>
-          <h2 id="models-title" className="t-h2">
-            Выберите <span className="accent">свою</span>
-          </h2>
-          <p className="t-body mt-5 text-cream/60">
-            Три породы дерева и три размера. Каждая рамка вырезана из цельного массива и покрыта маслом с воском — на ощупь тёплая, как мебель.
-          </p>
-          <div className="mt-10">
-            <ModelPicker tone="dark" source="configurator" />
-          </div>
-          <dl className="mt-8 grid grid-cols-3 gap-4 border-t border-white/10 pt-6 text-[14px]">
-            <div>
-              <dt className="text-cream/55">Экран</dt>
-              <dd className="mt-1">{sizeInfo.screen}</dd>
+        <div className="relative z-10 wrap pb-16 md:pointer-events-none md:absolute md:inset-0 md:flex md:items-center md:justify-end md:pb-0">
+          <div className="md:pointer-events-auto md:w-[400px] md:rounded-[28px] md:border md:border-white/10 md:bg-[#1a1411]/75 md:p-8 md:backdrop-blur-xl">
+            <p className="t-caption mb-4 text-cream/55">Материалы и размеры</p>
+            <h2 id="models-title" className="t-h3">
+              Выберите <span className="accent">свою</span>
+            </h2>
+            <p className="mt-3 text-[15px] leading-[1.55] text-cream/60">Цельный массив, покрытый маслом с воском. Ваза и книги рядом — чтобы было понятно, какого она размера.</p>
+            <div className="mt-7">
+              <ModelPicker tone="dark" source="configurator" />
             </div>
-            <div>
-              <dt className="text-cream/55">Рамка</dt>
-              <dd className="mt-1">{sizeInfo.outer}</dd>
+            <dl className="mt-6 grid grid-cols-3 gap-3 border-t border-white/10 pt-5 text-[14px]">
+              <div>
+                <dt className="text-cream/55">Экран</dt>
+                <dd className="mt-1">{sizeInfo.screen}</dd>
+              </div>
+              <div>
+                <dt className="text-cream/55">Рамка</dt>
+                <dd className="mt-1">{sizeInfo.outer}</dd>
+              </div>
+              <div>
+                <dt className="text-cream/55">Вес</dt>
+                <dd className="mt-1">{sizeInfo.weight}</dd>
+              </div>
+            </dl>
+            <div className="mt-7 flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="text-[13px] text-cream/55">{PRICE_NOTE}</p>
+                <p className="mt-1 text-[34px] font-semibold tracking-[-0.03em] tabular-nums" aria-live="polite">
+                  {formatPrice(price)}
+                </p>
+              </div>
+              <a
+                href="#preorder"
+                className="btn btn-cream"
+                onClick={(e) => {
+                  e.preventDefault();
+                  track("preorder_open", { source: "configurator", size, species });
+                  scrollToId("preorder");
+                }}
+              >
+                Предзаказать <ArrowIcon />
+              </a>
             </div>
-            <div>
-              <dt className="text-cream/55">Вес</dt>
-              <dd className="mt-1">{sizeInfo.weight}</dd>
-            </div>
-          </dl>
-          <div className="mt-10 flex flex-wrap items-end justify-between gap-6">
-            <div>
-              <p className="text-[13px] text-cream/55">{PRICE_NOTE}</p>
-              <p className="mt-1 text-[40px] font-semibold tracking-[-0.03em] tabular-nums" aria-live="polite">
-                {formatPrice(price)}
-              </p>
-            </div>
-            <a
-              href="#preorder"
-              className="btn btn-cream"
-              onClick={(e) => {
-                e.preventDefault();
-                track("preorder_open", { source: "configurator", size, species });
-                scrollToId("preorder");
-              }}
-            >
-              Предзаказать эту <ArrowIcon />
-            </a>
           </div>
         </div>
       </div>

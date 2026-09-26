@@ -8,60 +8,63 @@ import { MiniFrame } from "@/components/ui/MiniFrame";
 import { useStore } from "@/lib/store";
 import { createCtl, type AnchorName, type SceneCtl } from "@/three/ctl";
 
+type Callout = { anchor: AnchorName; label: string; /** направление выноски от якоря, px */ dir: [number, number] };
+
 type Step = {
   title: string;
   text: string;
-  anchor: AnchorName;
-  label: string;
-  /** направление выноски от якоря, px */
-  dir: [number, number];
+  callouts: Callout[];
   scene: Partial<SceneCtl>;
 };
 
-const FRONT = { rotY: 0, rotX: 0, camX: 0, camY: 1.2, camZ: 6.4, tgtX: 0, tgtY: 0.92, tgtZ: 0, glow: 0.22, pulse: 0 };
+const FRONT = { rotY: 0, rotX: 0, camX: 0, camY: 1.2, camZ: 6.4, tgtX: 0, tgtY: 0.92, tgtZ: 0, glow: 0.22, pulse: 0, explode: 0, flash: 0 };
 
 const STEPS: Step[] = [
   {
     title: "Экран на всю рамку.",
     text: "Фото как напечатанное.",
-    anchor: "screen",
-    label: "Матовое стекло заподлицо",
-    dir: [-70, -90],
+    callouts: [{ anchor: "screen", label: "Матовое стекло заподлицо", dir: [-70, -90] }],
     scene: FRONT,
+  },
+  {
+    title: "Внутри\u00a0— только нужное.",
+    text: "Экран, динамик, Wi‑Fi и свет.",
+    callouts: [
+      { anchor: "glass", label: "Матовое антибликовое стекло", dir: [70, -60] },
+      { anchor: "panel", label: "Экран 4:3", dir: [-90, -50] },
+      { anchor: "board", label: "Плата с Wi‑Fi", dir: [-90, 40] },
+      { anchor: "speaker", label: "Динамик и два микрофона", dir: [90, 50] },
+      { anchor: "led", label: "Светодиодная полоса", dir: [80, 70] },
+    ],
+    scene: { rotY: -1.12, rotX: 0, camX: 0.9, camY: 1.9, camZ: 8.4, tgtX: 0, tgtY: 0.85, tgtZ: 0, glow: 0.6, explode: 1, pulse: 0, flash: 0 },
   },
   {
     title: "Стоит сама.",
     text: "Без ножек и подставок.",
-    anchor: "wedge",
-    label: "Клин: 38 мм снизу, 15 мм сверху",
-    dir: [70, 80],
-    scene: { rotY: -1.42, camX: 0, camY: 1.05, camZ: 6.2, tgtX: 0, tgtY: 0.85, tgtZ: 0, glow: 0.22 },
+    callouts: [{ anchor: "wedge", label: "Клин: 38 мм снизу, 15 мм сверху", dir: [70, 80] }],
+    scene: { rotY: -1.42, camX: 0, camY: 1.05, camZ: 6.2, tgtX: 0, tgtY: 0.85, tgtZ: 0, glow: 0.22, explode: 0 },
   },
   {
-    title: "Свет под рамкой —",
+    title: "Свет под рамкой\u00a0—",
     text: "когда звучит голос.",
-    anchor: "base",
-    label: "Янтарный свет на поверхность стола",
-    dir: [60, 70],
-    scene: { rotY: -0.38, camX: 1.2, camY: 0.9, camZ: 5.7, tgtX: 0, tgtY: 0.5, tgtZ: 0.3, glow: 1 },
+    callouts: [{ anchor: "base", label: "Янтарный свет на поверхность стола", dir: [60, 70] }],
+    scene: { rotY: -0.38, camX: 1.2, camY: 0.9, camZ: 5.7, tgtX: 0, tgtY: 0.5, tgtZ: 0.3, glow: 1, explode: 0 },
   },
   {
     title: "Цельный дуб.",
-    text: "Каждая рамка — со своим рисунком.",
-    anchor: "grain",
-    label: "Массив, масло с воском",
-    dir: [-60, 70],
-    scene: { rotY: 0.34, camX: -1.25, camY: 2.2, camZ: 1.95, tgtX: -0.8, tgtY: 1.55, tgtZ: 0.25, glow: 0.3 },
+    text: "Каждая рамка\u00a0— со\u00a0своим рисунком.",
+    callouts: [{ anchor: "grain", label: "Массив, масло с воском", dir: [-60, 70] }],
+    scene: { rotY: 0.34, camX: -1.25, camY: 2.2, camZ: 1.95, tgtX: -0.8, tgtY: 1.55, tgtZ: 0.25, glow: 0.3, explode: 0 },
   },
   {
     title: "Ни одной кнопки.",
     text: "Только касание.",
-    anchor: "touch",
-    label: "Касание нижнего края — «думаю о тебе»",
-    dir: [-90, 50],
+    callouts: [{ anchor: "touch", label: "Касание нижнего края — «думаю о тебе»", dir: [-90, 50] }],
     scene: { ...FRONT, glow: 0.4, pulse: 1 },
   },
 ];
+
+const ALL_ANCHORS = [...new Set(STEPS.flatMap((s) => s.callouts.map((c) => c.anchor)))];
 
 function StaticAnatomy() {
   return (
@@ -78,7 +81,7 @@ function StaticAnatomy() {
         </div>
         <ol className="grid gap-8">
           {STEPS.map((s, i) => (
-            <li key={s.anchor} className="border-t border-white/10 pt-6">
+            <li key={s.title} className="border-t border-white/10 pt-6">
               <span className="t-caption text-cream/55">0{i + 1}</span>
               <p className="t-h3 mt-2">
                 {s.title} <span className="text-cream/55">{s.text}</span>
@@ -93,39 +96,44 @@ function StaticAnatomy() {
 
 /** Выноски: точка на детали, тонкая линия и подпись. Координаты берутся из сцены каждый кадр. */
 function Callouts({ ctl, groups }: { ctl: SceneCtl; groups: React.RefObject<(SVGGElement | null)[]> }) {
-  const lines = useRef<(SVGLineElement | null)[]>([]);
-  const dots = useRef<(SVGCircleElement | null)[]>([]);
-  const texts = useRef<(SVGTextElement | null)[]>([]);
+  const lines = useRef<Record<string, SVGLineElement | null>>({});
+  const dots = useRef<Record<string, SVGCircleElement | null>>({});
+  const rings = useRef<Record<string, SVGCircleElement | null>>({});
+  const texts = useRef<Record<string, SVGTextElement | null>>({});
 
   useEffect(() => {
     const mobile = window.matchMedia("(max-width: 767px)");
-    const widths: number[] = [];
+    const widths: Record<string, number> = {};
     const update = () => {
       const k = mobile.matches ? 0.55 : 1;
-      STEPS.forEach((s, i) => {
-        const p = ctl.projected[s.anchor];
-        if (!p) return;
-        const [dx, dy] = s.dir;
-        const x2 = p.x + dx * k;
-        const y2 = p.y + dy * k;
-        lines.current[i]?.setAttribute("x1", String(p.x));
-        lines.current[i]?.setAttribute("y1", String(p.y));
-        lines.current[i]?.setAttribute("x2", String(x2));
-        lines.current[i]?.setAttribute("y2", String(y2));
-        dots.current[i]?.setAttribute("cx", String(p.x));
-        dots.current[i]?.setAttribute("cy", String(p.y));
-        dots.current[i + 10]?.setAttribute("cx", String(p.x));
-        dots.current[i + 10]?.setAttribute("cy", String(p.y));
-        const t = texts.current[i];
-        if (t) {
-          const w = widths[i] || (widths[i] = t.getComputedTextLength());
-          const vw = t.ownerSVGElement?.clientWidth ?? window.innerWidth;
-          let x = dx >= 0 ? x2 + 8 : x2 - 8 - w;
-          x = Math.max(16, Math.min(vw - 16 - w, x));
-          t.setAttribute("x", String(x));
-          t.setAttribute("y", String(y2 + (dy < 0 ? -8 : 16)));
-        }
-      });
+      STEPS.forEach((s, i) =>
+        s.callouts.forEach((c) => {
+          const key = `${i}-${c.anchor}`;
+          const p = ctl.projected[c.anchor];
+          if (!p) return;
+          const [dx, dy] = c.dir;
+          const x2 = p.x + dx * k;
+          const y2 = p.y + dy * k;
+          const l = lines.current[key];
+          l?.setAttribute("x1", String(p.x));
+          l?.setAttribute("y1", String(p.y));
+          l?.setAttribute("x2", String(x2));
+          l?.setAttribute("y2", String(y2));
+          for (const d of [dots.current[key], rings.current[key]]) {
+            d?.setAttribute("cx", String(p.x));
+            d?.setAttribute("cy", String(p.y));
+          }
+          const t = texts.current[key];
+          if (t) {
+            const w = widths[key] || (widths[key] = t.getComputedTextLength());
+            const vw = t.ownerSVGElement?.clientWidth ?? window.innerWidth;
+            let x = dx >= 0 ? x2 + 8 : x2 - 8 - w;
+            x = Math.max(16, Math.min(vw - 16 - w, x));
+            t.setAttribute("x", String(x));
+            t.setAttribute("y", String(y2 + (dy < 0 ? -8 : 16)));
+          }
+        }),
+      );
     };
     gsap.ticker.add(update);
     return () => gsap.ticker.remove(update);
@@ -135,18 +143,25 @@ function Callouts({ ctl, groups }: { ctl: SceneCtl; groups: React.RefObject<(SVG
     <svg className="pointer-events-none absolute inset-0 size-full" aria-hidden>
       {STEPS.map((s, i) => (
         <g
-          key={s.anchor}
+          key={s.title}
           ref={(el) => {
             groups.current[i] = el;
           }}
           style={{ opacity: 0 }}
         >
-          <line ref={(el) => void (lines.current[i] = el)} stroke="rgba(244,239,231,0.55)" strokeWidth="1" />
-          <circle ref={(el) => void (dots.current[i] = el)} r="4" fill="var(--cream)" />
-          <circle r="10" fill="none" stroke="rgba(244,239,231,0.35)" ref={(el) => void (dots.current[i + 10] = el)} />
-          <text ref={(el) => void (texts.current[i] = el)} fill="rgba(244,239,231,0.8)" fontSize="12" letterSpacing="0.08em" style={{ textTransform: "uppercase" }}>
-            {s.label}
-          </text>
+          {s.callouts.map((c) => {
+            const key = `${i}-${c.anchor}`;
+            return (
+              <g key={key}>
+                <line ref={(el) => void (lines.current[key] = el)} stroke="rgba(244,239,231,0.55)" strokeWidth="1" />
+                <circle ref={(el) => void (dots.current[key] = el)} r="4" fill="var(--cream)" />
+                <circle ref={(el) => void (rings.current[key] = el)} r="10" fill="none" stroke="rgba(244,239,231,0.35)" />
+                <text ref={(el) => void (texts.current[key] = el)} fill="rgba(244,239,231,0.85)" fontSize="12" letterSpacing="0.08em" style={{ textTransform: "uppercase" }}>
+                  {c.label}
+                </text>
+              </g>
+            );
+          })}
         </g>
       ))}
     </svg>
@@ -160,7 +175,7 @@ export function Anatomy() {
   const groups = useRef<(SVGGElement | null)[]>([]);
   const bar = useRef<HTMLDivElement>(null);
 
-  const ctl = useMemo(() => createCtl({ ...STEPS[0].scene, species: "oak", minAspect: 1.2, anchors: STEPS.map((s) => s.anchor), photo: 0 }), []);
+  const ctl = useMemo(() => createCtl({ ...STEPS[0].scene, species: "oak", minAspect: 1.2, anchors: ALL_ANCHORS, photo: 0, drift: 1, breath: 0.6 }), []);
 
   useEffect(() => {
     if (!mode || mode === "static" || !section.current) return;
@@ -185,6 +200,8 @@ export function Anatomy() {
         tl.to(groups.current[i - 1], { opacity: 0, duration: 0.18 }, at);
         tl.fromTo(texts.current[i], { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power3.out" }, at + 0.32);
         tl.to(groups.current[i], { opacity: 1, duration: 0.25 }, at + 0.45);
+        // шаг про свет: волны света бегут по столу сами
+        tl.set(ctl, { rippleEvery: s.callouts[0].anchor === "base" ? 1.7 : 0 }, at + 0.3);
       });
       tl.to({}, { duration: 0.3 }, T - 0.3);
       tl.to(bar.current, { scaleX: 1, ease: "none", duration: T }, 0);
@@ -208,24 +225,24 @@ export function Anatomy() {
     );
 
   return (
-    <section ref={section} id="anatomy" data-theme="dark" className="relative h-[330vh] bg-stage md:h-[420vh]" aria-label="Как она устроена">
+    <section ref={section} id="anatomy" data-theme="dark" className="relative h-[380vh] bg-stage md:h-[500vh]" aria-label="Как она устроена">
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         <SceneSlot ctl={ctl} fallback={null} className="absolute inset-0" />
         <Callouts ctl={ctl} groups={groups} />
 
         <div className="pointer-events-none relative z-10 wrap flex h-full flex-col justify-end pb-12 md:justify-center md:pb-0">
           <p className="t-caption mb-5 text-cream/50 md:mb-8">Как она устроена</p>
-          <div className="relative h-[150px] md:h-[250px] md:max-w-[36%]">
+          <div className="relative h-[170px] md:h-[300px] md:max-w-[36%]">
             {STEPS.map((s, i) => (
               <div
-                key={s.anchor}
+                key={s.title}
                 ref={(el) => {
                   texts.current[i] = el;
                 }}
                 className="absolute inset-x-0 top-0"
                 style={{ opacity: i === 0 ? 1 : 0 }}
               >
-                <span className="t-caption text-glow/80">0{i + 1} / 05</span>
+                <span className="t-caption text-glow/80">0{i + 1} / 0{STEPS.length}</span>
                 <p className="t-h2 mt-3">
                   {s.title} <span className="text-cream/55">{s.text}</span>
                 </p>

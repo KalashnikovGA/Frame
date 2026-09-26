@@ -11,12 +11,14 @@ export const MEDIA = {
     side: null as string | null, // "/media/frame-side.jpg"
     night: null as string | null, // "/media/frame-night.jpg"
   },
+  /** Видео «Как это работает». Пока null — показывается анимация, нарисованная в коде. */
+  howVideo: null as string | null, // "/media/how-it-works.mp4"
   /** Необязательное видео для первого экрана без WebGL. */
   heroLoop: null as string | null, // "/media/hero-loop.mp4"
   /** Семейные фото на экране рамки. Порядок важен: первое — главное. */
   photos: [
     "/media/photo-1.jpg",
-    null, // "/media/photo-2.jpg"
+    "/media/photo-2.jpg", // пара на закате — заглушка-иллюстрация, заменить настоящим фото
     null, // "/media/photo-3.jpg"
     null, // "/media/photo-4.jpg"
     null, // "/media/photo-5.jpg"

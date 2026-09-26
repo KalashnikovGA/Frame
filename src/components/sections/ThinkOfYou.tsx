@@ -49,6 +49,29 @@ export function ThinkOfYou() {
     trail.current.setAttribute("d", d);
   }, []);
 
+  // показываем интерактив сам один раз, когда секция появилась на экране
+  useEffect(() => {
+    const el = stage.current;
+    if (!el) return;
+    let done = false;
+    let timer = 0;
+    const check = () => {
+      if (done) return;
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight * 0.6 && r.bottom > window.innerHeight * 0.3) {
+        done = true;
+        timer = window.setTimeout(() => fireRef.current(), 900);
+        window.removeEventListener("scroll", check);
+      }
+    };
+    window.addEventListener("scroll", check, { passive: true });
+    check();
+    return () => {
+      window.removeEventListener("scroll", check);
+      window.clearTimeout(timer);
+    };
+  }, []);
+
   useEffect(() => {
     layout();
     paint();
@@ -96,6 +119,9 @@ export function ThinkOfYou() {
       .to(glow.current, { right: 0.55, duration: 3.5, ease: "power2.out", onUpdate: paint });
   }, [paint, reduced]);
 
+  const fireRef = useRef(fire);
+  fireRef.current = fire;
+
   const start = () => {
     if (busy.current) return;
     hold.current?.kill();
@@ -137,8 +163,8 @@ export function ThinkOfYou() {
 
         <div ref={stage} className="relative mt-14 grid gap-4 md:mt-20 md:grid-cols-2 md:gap-5">
           {[
-            { city: "Москва", who: "Вы", ref: left, photo: 1, wood: "#C49A6C", interactive: true },
-            { city: "Екатеринбург", who: "Мама", ref: right, photo: 0, wood: "#E6D3B3", interactive: false },
+            { city: "Москва", who: "Вы", time: "21:40", ref: left, photo: 0, wood: "#C49A6C", interactive: true },
+            { city: "Екатеринбург", who: "Мама", time: "23:40", ref: right, photo: 1, wood: "#E6D3B3", interactive: false },
           ].map((r) => (
             <div
               key={r.city}
@@ -146,9 +172,13 @@ export function ThinkOfYou() {
             >
               <div className="flex items-baseline justify-between">
                 <p className="t-caption text-cream/70">{r.city}</p>
-                <p className="text-[13px] text-cream/55">{r.who}</p>
+                <p className="text-[13px] text-cream/55">
+                  {r.who} · <span className="tabular-nums">{r.time}</span>
+                </p>
               </div>
-              <div className="relative mx-auto w-[62%] max-w-[300px] pb-10">
+              {/* тёплая лампа в углу комнаты */}
+              <span className="pointer-events-none absolute -top-24 right-[-10%] size-72 rounded-full bg-[radial-gradient(closest-side,rgba(255,190,120,0.16),transparent)]" aria-hidden />
+              <div className="relative mx-auto w-[62%] max-w-[300px] pb-10" style={{ animation: `float 6s ease-in-out ${r.interactive ? 0 : -3}s infinite` }}>
                 <div ref={r.ref}>
                   <MiniFrame wood={r.wood} photo={r.photo} glow={r.interactive ? 0.25 : 0.12} dim={r.interactive ? 1 : 0.92} />
                 </div>

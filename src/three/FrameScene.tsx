@@ -191,6 +191,9 @@ export default function FrameScene({ ctl, quality, active, interactive, onReady 
       <Backdrop ctl={ctl} />
       <Table quality={quality} />
       <FrameModel ctl={ctl} quality={quality} interactive={interactive} />
+      {ctl.companions.map((c, i) => (
+        <FrameModel key={i} ctl={c.ctl} quality={quality} position={c.position} baseRotY={c.rotY} />
+      ))}
       {ctl.props.vase && <Vase position={[-2.75, 0, -0.35]} />}
       {ctl.props.books && <Books position={[2.9, 0, -0.1]} rotation={-0.18} />}
       {full && (

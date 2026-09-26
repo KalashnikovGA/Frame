@@ -1,6 +1,6 @@
 import type { Species } from "@/config/pricing";
 
-export type AnchorName = "screen" | "wedge" | "base" | "grain" | "touch";
+export type AnchorName = "screen" | "wedge" | "base" | "grain" | "touch" | "glass" | "panel" | "board" | "speaker" | "led";
 
 /**
  * Состояние сцены, которым управляют секции (GSAP тянет числа, сцена читает их каждый кадр).
@@ -39,6 +39,17 @@ export type SceneCtl = {
   night: number;
   /** пульс «коснитесь, чтобы ответить» 0…1 */
   pulse: number;
+  /** оттенок света: 0 — янтарный, 1 — теплее и насыщеннее (запись ответа) */
+  warmth: number;
+  /** волна света по столу: увеличьте счётчик, чтобы пустить волну; rippleEvery — автоповтор, с */
+  ripple: number;
+  rippleEvery: number;
+  /** разобранный вид: слои расходятся, 0…1 */
+  explode: number;
+  /** прогресс записи ответа 0…1 — кольцо на экране */
+  record: number;
+  /** дополнительные рамки в той же сцене (например, вторая рамка на столе) */
+  companions: { ctl: SceneCtl; position: [number, number, number]; rotY: number }[];
 
   species: Species;
   scale: number;
@@ -75,6 +86,12 @@ export function createCtl(p: Partial<SceneCtl> = {}): SceneCtl {
     screen: 1,
     night: 0,
     pulse: 0,
+    warmth: 0,
+    ripple: 0,
+    rippleEvery: 0,
+    explode: 0,
+    record: 0,
+    companions: [],
     species: "birch",
     scale: 1,
     photo: 0,

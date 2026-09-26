@@ -48,9 +48,12 @@ export function Hero() {
     () =>
       createCtl({
         species: "birch",
-        camY: 1.25,
-        camZ: 6.6,
-        tgtY: 0.92,
+        camX: -0.55,
+        camY: 1.5,
+        camZ: 9.8,
+        tgtX: -0.55,
+        tgtY: 0.95,
+        tgtZ: -0.5,
         glow: 0.24,
         breath: 1,
         voice: 1,
@@ -58,6 +61,14 @@ export function Hero() {
         drift: 1,
         minAspect: 1.05,
         photo: 0,
+        // вторая рамка на столе — с любимым человеком: рамка не только для бабушек
+        companions: [
+          {
+            ctl: createCtl({ species: "oak", scale: 0.82, photo: 1, glow: 0.2, breath: 1 }),
+            position: [-1.8, 0, -1.75],
+            rotY: 0.3,
+          },
+        ],
       }),
     [],
   );
@@ -67,13 +78,13 @@ export function Hero() {
     const mq = window.matchMedia("(min-width: 768px)");
     const apply = () => {
       if (mq.matches) {
-        ctl.shiftX = 0.22;
+        ctl.shiftX = 0.25;
         ctl.shiftY = 0.03;
         ctl.minAspect = 1.05;
       } else {
         ctl.shiftX = 0;
         ctl.shiftY = -0.02;
-        ctl.minAspect = 1.02;
+        ctl.minAspect = 1.3;
       }
     };
     apply();
@@ -156,8 +167,8 @@ export function Hero() {
               </span>
             </span>
           </h1>
-          <p data-reveal className="t-body mt-4 max-w-[30ch] !text-[16px] text-cream/70 md:mt-7 md:!text-[19px]">
-            Семья присылает фото и голос. Бабушка слушает и отвечает одним касанием.
+          <p data-reveal className="t-body mt-4 max-w-[31ch] !text-[16px] text-cream/70 md:mt-7 md:!text-[19px]">
+            Близкие присылают фото и голос. Мама, бабушка или любимый человек слушает и отвечает одним касанием.
           </p>
           <div data-reveal className="pointer-events-auto mt-6 flex items-center gap-x-3 md:mt-10 md:gap-x-6">
             <a

@@ -1,5 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import gsap from "gsap";
+import { SceneSlot } from "@/components/SceneSlot";
+import { MiniFrame } from "@/components/ui/MiniFrame";
+import { SPECIES } from "@/config/pricing";
+import { createCtl } from "@/three/ctl";
 import { PRIVACY_URL } from "@/config/brand";
 import { PRICE_NOTE, formatPrice, getPrice, modelLabel } from "@/config/pricing";
 import { ModelPicker } from "@/components/ui/ModelPicker";
@@ -17,6 +22,38 @@ export function Preorder() {
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<PreorderErrors>({});
   const [status, setStatus] = useState<Status>("idle");
+  const ctl = useMemo(
+    () =>
+      createCtl({
+        species: useStore.getState().species,
+        scale: useStore.getState().size / 10,
+        rotY: -0.35,
+        camX: 0.8,
+        camY: 1.6,
+        camZ: 7.2,
+        tgtY: 0.95,
+        glow: 0.4,
+        breath: 1,
+        pointer: 0.6,
+        drift: 0.6,
+        minAspect: 1.3,
+        photo: 1,
+      }),
+    [],
+  );
+  // смена породы — плавное перетекание цвета и волна света; смена размера — масштаб
+  useEffect(() => {
+    ctl.species = species;
+    ctl.ripple++;
+  }, [species, ctl]);
+  useEffect(() => {
+    const t = gsap.to(ctl, { scale: size / 10, duration: 1.1, ease: "expo.out" });
+    ctl.ripple++;
+    return () => {
+      t.kill();
+    };
+  }, [size, ctl]);
+
   const [done, setDone] = useState<{ name: string; model: string; demo?: boolean } | null>(null);
 
   const submit = async (e: React.FormEvent) => {
@@ -74,6 +111,18 @@ export function Preorder() {
           <p className="t-body mt-6 text-cream/65">
             Предзаказ без оплаты. Сообщим, когда начнём производство, и только тогда предложим оплатить. Передумать можно в любой момент.
           </p>
+          <div className="card relative mt-10 h-[340px] overflow-hidden bg-stage-2 md:h-[400px]">
+            <SceneSlot
+              ctl={ctl}
+              fallback={
+                <div className="flex size-full items-center justify-center p-12">
+                  <MiniFrame wood={SPECIES.find((x) => x.id === species)!.color} photo={1} glow={0.5} style={{ width: `${size * 6.5}%` }} />
+                </div>
+              }
+              className="absolute inset-0"
+            />
+            <p className="t-caption pointer-events-none absolute bottom-5 left-6 text-cream/55">{modelLabel(size, species)}</p>
+          </div>
           <ul className="mt-10 grid gap-4 border-t border-white/10 pt-8 text-[16px] text-cream/70">
             <li>Цена предзаказа сохраняется за вами</li>
             <li>Доставка по всей России</li>
