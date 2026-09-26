@@ -26,8 +26,11 @@ class StoryPlayer {
     this.audio = audio;
 
     try {
-      const res = await fetch(MEDIA.story.captions);
-      if (res.ok) this.cues = parseVTT(await res.text());
+      if (MEDIA.story.captionsText) this.cues = parseVTT(MEDIA.story.captionsText);
+      else {
+        const res = await fetch(MEDIA.story.captions);
+        if (res.ok) this.cues = parseVTT(await res.text());
+      }
     } catch {
       /* без субтитров история всё равно играет */
     }

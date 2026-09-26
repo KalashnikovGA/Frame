@@ -1,4 +1,4 @@
-import { BRAND_NAME, CONTACTS, LEGAL } from "@/config/brand";
+import { BRAND_NAME, CONTACTS, LEGAL, PRIVACY_URL } from "@/config/brand";
 
 export function Footer() {
   return (
@@ -23,7 +23,7 @@ export function Footer() {
           </div>
           <div className="grid content-start gap-3 text-[15px]">
             <p className="t-caption mb-2 text-cream/55">Документы</p>
-            <a href="/privacy" className="text-cream/75 hover:text-cream">
+            <a href={PRIVACY_URL} className="text-cream/75 hover:text-cream">
               Политика конфиденциальности
             </a>
           </div>

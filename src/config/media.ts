@@ -25,6 +25,8 @@ export const MEDIA = {
   story: {
     audio: "/media/story-1.mp3",
     captions: "/media/story-1.vtt",
+    /** Текст субтитров прямо в коде (используется одностраничной сборкой вместо файла). */
+    captionsText: null as string | null,
   },
   /** Когда будет готова 3D-модель — впишите "/models/frame.glb". */
   frameModel: null as string | null,

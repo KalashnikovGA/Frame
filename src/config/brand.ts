@@ -3,6 +3,9 @@ export const BRAND_NAME = "Рамка";
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.ru";
 
+/** Адрес политики конфиденциальности (в одностраничной версии — якорь на странице). */
+export const PRIVACY_URL = process.env.NEXT_PUBLIC_PRIVACY_URL || "/privacy";
+
 export const SITE_DESCRIPTION =
   "Фоторамка из цельного дерева, через которую семья присылает бабушке и дедушке фото и голосовые истории, а они отвечают голосом одним касанием. Предзаказ без оплаты.";
 
