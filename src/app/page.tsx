@@ -1,19 +1,6 @@
 import { BRAND_NAME, SITE_DESCRIPTION, SITE_URL } from "@/config/brand";
 import { PRICES, SIZES, SPECIES } from "@/config/pricing";
-import { Nav } from "@/components/Nav";
-import { Hero } from "@/components/sections/Hero";
-import { Anatomy } from "@/components/sections/Anatomy";
-import { Light } from "@/components/sections/Light";
-import { HowItWorks } from "@/components/sections/HowItWorks";
-import { ThinkOfYou } from "@/components/sections/ThinkOfYou";
-import { Night } from "@/components/sections/Night";
-import { Configurator } from "@/components/sections/Configurator";
-import { Voice } from "@/components/sections/Voice";
-import { Specs } from "@/components/sections/Specs";
-import { Privacy } from "@/components/sections/Privacy";
-import { Preorder } from "@/components/sections/Preorder";
-import { Faq } from "@/components/sections/Faq";
-import { Footer } from "@/components/sections/Footer";
+import { Page as Landing } from "@/components/v2/Page";
 
 function productJsonLd() {
   const offers = SIZES.flatMap((size) =>
@@ -50,22 +37,7 @@ function productJsonLd() {
 export default function Page() {
   return (
     <>
-      <Nav />
-      <main>
-        <Hero />
-        <Anatomy />
-        <Light />
-        <HowItWorks />
-        <ThinkOfYou />
-        <Night />
-        <Configurator />
-        <Specs />
-        <Voice />
-        <Privacy />
-        <Preorder />
-        <Faq />
-      </main>
-      <Footer />
+      <Landing />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd()) }} />
     </>
   );

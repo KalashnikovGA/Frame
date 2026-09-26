@@ -97,7 +97,7 @@ export function Preorder() {
     "w-full rounded-[18px] border border-white/12 bg-white/[0.04] px-5 py-4 text-[17px] text-cream placeholder:text-cream/30 transition-colors focus:border-glow/70 focus:outline-none aria-[invalid=true]:border-[#e38b6f]";
 
   return (
-    <section id="preorder" data-theme="dark" className="relative overflow-hidden bg-stage py-24 md:py-36" aria-labelledby="preorder-title">
+    <section id="preorder" data-theme="dark" className="relative overflow-hidden bg-[#141311] py-24 text-cream md:py-36" aria-labelledby="preorder-title">
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-[60%] bg-[radial-gradient(50%_60%_at_50%_100%,rgba(255,179,92,0.10),transparent)]"
         aria-hidden
@@ -105,8 +105,8 @@ export function Preorder() {
       <div className="wrap relative grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-24">
         <div>
           <p className="t-caption mb-6 text-cream/50">Предзаказ</p>
-          <h2 id="preorder-title" className="t-h1 max-w-[12ch]">
-            Будьте первыми, кто <span className="accent">услышит</span>
+          <h2 id="preorder-title" className="v2-h2 max-w-[14ch]">
+            Будьте первыми, кто <em className="italic">услышит</em>
           </h2>
           <p className="t-body mt-6 text-cream/65">
             Предзаказ без оплаты. Сообщим, когда начнём производство, и только тогда предложим оплатить. Передумать можно в любой момент.

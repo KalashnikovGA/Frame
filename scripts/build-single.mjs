@@ -11,14 +11,16 @@ const root = process.cwd();
 const out = path.join(root, "single");
 mkdirSync(out, { recursive: true });
 
+const WEB = { hero: "hero", grandparents: "grandparents", mom: "mom", couple: "couple", grandpa: "grandpa", motherDaughter: "mother-daughter", sunset: "sunset", hike: "hike", sofa: "sofa", beach: "beach", baby: "baby", window: "window", listening: "listening" };
 const dataUri = (file, type) => `data:${type};base64,${readFileSync(path.join(root, "public", file)).toString("base64")}`;
 
 // медиа как data: URI — одностраничной версии не нужны отдельные файлы
 const mediaModule = `export const MEDIA = {
-  heroPoster: ${JSON.stringify(dataUri("media/hero-poster.jpg", "image/jpeg"))},
+  heroPoster: null,
   posters: { front: null, side: null, night: null },
   heroLoop: null,
-  photos: [${JSON.stringify(dataUri("media/photo-1.jpg", "image/jpeg"))}, null, null, null, null, null],
+  photos: ${JSON.stringify(["grandparents", "couple", "mom", "grandpa", "beach", "sofa"].map((n) => dataUri(`media/web/${n}.jpg`, "image/jpeg")))},
+  web: ${JSON.stringify(Object.fromEntries(Object.entries(WEB).map(([k, f]) => [k, dataUri(`media/web/${f}.jpg`, "image/jpeg")])))},
   story: {
     audio: ${JSON.stringify(dataUri("media/story-1.mp3", "audio/mpeg"))},
     captions: "",
@@ -67,7 +69,7 @@ const html = `<title>Рамка</title>
 <meta name="description" content="Фоторамка из цельного дерева, через которую семья присылает бабушке и дедушке фото и голос.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,600;1,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,600;1,500&family=Spectral:ital,wght@0,300;0,400;1,300&display=swap">
 <style>${css}</style>
 <script>(function(){var d=document.documentElement;d.lang="ru";d.classList.add("js");if(matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("no-motion")})()</script>
 <div id="root"></div>

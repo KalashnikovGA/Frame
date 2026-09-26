@@ -1,39 +1,74 @@
 import { BRAND_NAME, CONTACTS, LEGAL, PRIVACY_URL } from "@/config/brand";
 
+const COLS = [
+  {
+    title: "Рамка",
+    links: [
+      { href: "#arrive", text: "Как это работает" },
+      { href: "#showcase", text: "Касание и свет" },
+      { href: "#variants", text: "Модели и цены" },
+      { href: "#specs", text: "Характеристики" },
+      { href: "#preorder", text: "Предзаказ" },
+    ],
+  },
+  {
+    title: "Помощь",
+    links: [
+      { href: "#faq", text: "Вопросы и ответы" },
+      { href: "#faq", text: "Доставка" },
+      { href: "#faq", text: "Возврат" },
+      { href: PRIVACY_URL, text: "Политика конфиденциальности" },
+    ],
+  },
+  {
+    title: "Связаться",
+    links: [
+      { href: `mailto:${CONTACTS.email}`, text: CONTACTS.email },
+      { href: `tel:${CONTACTS.phoneHref}`, text: CONTACTS.phone },
+      { href: CONTACTS.telegram, text: "Телеграм" },
+    ],
+  },
+];
+
 export function Footer() {
   return (
-    <footer data-theme="dark" className="bg-stage pt-20 pb-10 text-cream">
-      <div className="wrap">
-        <div className="grid gap-12 border-b border-white/10 pb-14 md:grid-cols-[1.4fr_1fr_1fr]">
-          <div>
-            <p className="text-[28px] font-semibold tracking-[-0.03em]">{BRAND_NAME}</p>
-            <p className="mt-3 max-w-[32ch] text-[15px] text-cream/50">Выглядит как обычная рамка. Пока не заговорит.</p>
-          </div>
-          <div className="grid content-start gap-3 text-[15px]">
-            <p className="t-caption mb-2 text-cream/55">Связаться</p>
-            <a href={`mailto:${CONTACTS.email}`} className="text-cream/75 hover:text-cream">
-              {CONTACTS.email}
-            </a>
-            <a href={`tel:${CONTACTS.phoneHref}`} className="text-cream/75 hover:text-cream">
-              {CONTACTS.phone}
-            </a>
-            <a href={CONTACTS.telegram} className="text-cream/75 hover:text-cream" rel="noopener">
-              Телеграм
-            </a>
-          </div>
-          <div className="grid content-start gap-3 text-[15px]">
-            <p className="t-caption mb-2 text-cream/55">Документы</p>
-            <a href={PRIVACY_URL} className="text-cream/75 hover:text-cream">
-              Политика конфиденциальности
-            </a>
-          </div>
+    <footer className="bg-[#141311] px-4 pt-16 pb-8 text-white md:px-9 md:pt-24">
+      <div className="grid gap-12 md:grid-cols-[1.2fr_repeat(3,1fr)]">
+        <div>
+          <svg width="52" height="44" viewBox="0 0 26 22" aria-hidden>
+            <rect x="1" y="1" width="24" height="17" rx="3.5" fill="none" stroke="currentColor" strokeWidth="1.4" />
+            <rect x="5" y="20" width="16" height="1.8" rx="0.9" fill="#E8913A" />
+          </svg>
+          <p className="f-serif mt-6 max-w-[16ch] text-[32px] leading-[1.1]">Выглядит как обычная рамка. Пока не заговорит</p>
         </div>
-        <div className="flex flex-col justify-between gap-4 pt-8 text-[13px] text-cream/35 md:flex-row">
-          <p>
-            {LEGAL.company} · ИНН {LEGAL.inn} · ОГРН {LEGAL.ogrn} · {LEGAL.address}
-          </p>
-          <p>© {new Date().getFullYear()} {BRAND_NAME}</p>
-        </div>
+        {COLS.map((c) => (
+          <nav key={c.title} aria-label={c.title}>
+            <p className="mb-5 flex items-center gap-2 text-[14px] text-white/60">
+              <span className="size-2 rounded-full bg-white/60" />
+              {c.title}
+            </p>
+            <ul className="grid gap-2.5">
+              {c.links.map((l) => (
+                <li key={l.text}>
+                  <a href={l.href} className="group inline-flex items-center gap-2 text-[17px] text-white/90 hover:text-white">
+                    {l.text}
+                    <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden>
+                      →
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))}
+      </div>
+      <div className="mt-16 flex flex-col justify-between gap-3 border-t border-white/10 pt-6 text-[13px] text-white/55 md:flex-row">
+        <p>
+          {LEGAL.company} · ИНН {LEGAL.inn} · ОГРН {LEGAL.ogrn}
+        </p>
+        <p>
+          © {new Date().getFullYear()} {BRAND_NAME} · Фото на сайте — временные, с Pexels
+        </p>
       </div>
     </footer>
   );

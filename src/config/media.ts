@@ -17,13 +17,29 @@ export const MEDIA = {
   heroLoop: null as string | null, // "/media/hero-loop.mp4"
   /** Семейные фото на экране рамки. Порядок важен: первое — главное. */
   photos: [
-    "/media/photo-1.jpg",
-    "/media/photo-2.jpg", // пара на закате — заглушка-иллюстрация, заменить настоящим фото
-    null, // "/media/photo-3.jpg"
-    null, // "/media/photo-4.jpg"
-    null, // "/media/photo-5.jpg"
-    null, // "/media/photo-6.jpg"
+    "/media/web/grandparents.jpg",
+    "/media/web/couple.jpg",
+    "/media/web/mom.jpg",
+    "/media/web/grandpa.jpg",
+    "/media/web/beach.jpg",
+    "/media/web/sofa.jpg",
   ] as (string | null)[],
+  /** Фото для оформления страницы. Сейчас — заглушки с Pexels (см. public/media/web/CREDITS.md). */
+  web: {
+    hero: "/media/web/hero.jpg",
+    grandparents: "/media/web/grandparents.jpg",
+    mom: "/media/web/mom.jpg",
+    couple: "/media/web/couple.jpg",
+    grandpa: "/media/web/grandpa.jpg",
+    motherDaughter: "/media/web/mother-daughter.jpg",
+    sunset: "/media/web/sunset.jpg",
+    hike: "/media/web/hike.jpg",
+    sofa: "/media/web/sofa.jpg",
+    beach: "/media/web/beach.jpg",
+    baby: "/media/web/baby.jpg",
+    window: "/media/web/window.jpg",
+    listening: "/media/web/listening.jpg",
+  },
   story: {
     audio: "/media/story-1.mp3",
     captions: "/media/story-1.vtt",

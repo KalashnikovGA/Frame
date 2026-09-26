@@ -40,12 +40,12 @@ function Item({ q, a, open, onToggle }: { q: string; a: string; open: boolean; o
 export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" data-theme="light" className="bg-cream py-24 text-ink md:py-36" aria-labelledby="faq-title">
+    <section id="faq" data-theme="light" className="bg-[var(--paper-2)] py-24 text-ink md:py-36" aria-labelledby="faq-title">
       <div className="wrap grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
         <div>
           <p className="t-caption mb-6 text-muted">Вопросы и ответы</p>
-          <h2 id="faq-title" className="t-h2 max-w-[12ch]">
-            Что обычно <span className="accent">спрашивают</span>
+          <h2 id="faq-title" className="v2-h2 max-w-[12ch]">
+            Что обычно <em className="italic">спрашивают</em>
           </h2>
         </div>
         <ul className="border-b border-hairline">

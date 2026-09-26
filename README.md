@@ -25,10 +25,15 @@ npm run build && npm start
 | Контакты и реквизиты | `src/config/brand.ts` → `CONTACTS`, `LEGAL` |
 | Цены, породы, размеры | `src/config/pricing.ts` (все цены — предзаказные) |
 | Фото, постеры, аудио, 3D-модель | `src/config/media.ts` + файлы в `public/media/` |
+| Секции страницы | `src/components/v2/` (порядок — в `Page.tsx`) |
 | Вопросы и ответы, характеристики | `src/config/content.ts` (`FAQ`, `SPECS`) |
 | Цвета и типографика | `src/app/globals.css` (переменные `--stage`, `--cream`, `--glow`…) |
 
-### Фото
+### Фото на сайте
+
+Сейчас все фото — временные заглушки с Pexels (лицензия разрешает коммерческое использование): `public/media/web/`, список источников — в `CREDITS.md` рядом. Замените файлы своими с теми же именами или поправьте пути в `MEDIA.web` и `MEDIA.photos` (`src/config/media.ts`).
+
+### Фото (старые заглушки)
 
 Положите `photo-2.jpg` … `photo-6.jpg` в `public/media/` и впишите пути в `MEDIA.photos`. Пока путь `null`, на его месте рисуется тёплая заглушка «фото» (и в 3D, и в CSS-рамках). Лучше 4:3, от 1024×768.
 

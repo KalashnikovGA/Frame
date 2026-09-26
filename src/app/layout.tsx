@@ -4,6 +4,9 @@ import "@fontsource/onest/500.css";
 import "@fontsource/onest/600.css";
 import "@fontsource/cormorant-garamond/500-italic.css";
 import "@fontsource/cormorant-garamond/600.css";
+import "@fontsource/spectral/300.css";
+import "@fontsource/spectral/400.css";
+import "@fontsource/spectral/300-italic.css";
 import "./globals.css";
 import { BRAND_NAME, SITE_DESCRIPTION, SITE_URL } from "@/config/brand";
 import { SmoothScroll } from "@/components/SmoothScroll";
@@ -30,7 +33,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#14100D",
+  themeColor: "#EFEEE9",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",

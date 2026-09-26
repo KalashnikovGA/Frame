@@ -30,15 +30,15 @@
 }
 
 html {
-  background: var(--stage);
-  color-scheme: dark;
+  background: #efeee9;
+  color-scheme: light;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background: var(--stage);
-  color: var(--cream);
+  background: #efeee9;
+  color: #141311;
   font-family: var(--font-sans);
   font-size: 18px;
   line-height: 1.55;
@@ -469,4 +469,122 @@ html.js:not(.no-motion) .line > span {
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
+}
+
+/* ================= v2: светлая редакция в духе продуктовых сайтов ================= */
+:root {
+  --paper-2: #efeee9;
+  --panel: #e4e3dd;
+  --card-2: #f8f7f3;
+  --ink-2: #141311;
+  --muted-2: #66645e;
+  --line-2: #d9d8d1;
+  --serif: "Spectral", "Cormorant Garamond", Georgia, serif;
+}
+
+.v2 {
+  background: var(--paper-2);
+  color: var(--ink-2);
+}
+.f-serif {
+  font-family: var(--serif);
+  font-weight: 300;
+  letter-spacing: -0.025em;
+}
+.v2-h1 {
+  font-family: var(--serif);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  font-size: clamp(44px, 6.4vw, 104px);
+  text-wrap: balance;
+}
+.v2-h2 {
+  font-family: var(--serif);
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  line-height: 1.06;
+  font-size: clamp(36px, 4.6vw, 72px);
+  text-wrap: balance;
+}
+.v2-sub {
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.5;
+  color: var(--ink-2);
+  opacity: 0.8;
+  text-wrap: pretty;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+.pill:active {
+  transform: scale(0.97);
+}
+.pill-dark {
+  background: var(--ink-2);
+  color: #fff;
+}
+.pill-dark:hover {
+  background: #000;
+}
+.pill-line {
+  border: 1px solid currentColor;
+}
+.pill-line:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+.grad-text {
+  background: linear-gradient(90deg, #e0893a, #e8627f 55%, #b35fd0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% 100%;
+  animation: grad-move 3s linear infinite;
+}
+@keyframes grad-move {
+  to {
+    background-position: -200% 0;
+  }
+}
+@keyframes marching {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.skeleton {
+  background: linear-gradient(90deg, #e2e1db 0%, #ecebe6 40%, #e2e1db 80%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+@keyframes dots {
+  0%, 20% { opacity: 0.2; }
+  50% { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+@keyframes eq {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
 }
