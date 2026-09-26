@@ -189,8 +189,15 @@ export function HowItWorks() {
       aria-labelledby="how-title"
     >
       <div className={horizontal ? "lg:sticky lg:top-0 lg:flex lg:h-[100svh] lg:items-center lg:overflow-hidden" : ""}>
-        <div ref={track} className="flex flex-col gap-6 px-[var(--gutter)] py-24 lg:flex-row lg:items-stretch lg:gap-8 lg:py-0 lg:pr-[12vw] lg:will-change-transform">
-          <div className="flex shrink-0 flex-col justify-center lg:w-[34vw] lg:pr-10">
+        <div
+          ref={track}
+          className={
+            horizontal
+              ? "flex flex-col gap-6 px-[var(--gutter)] py-24 lg:flex-row lg:items-stretch lg:gap-8 lg:py-0 lg:pr-[12vw] lg:will-change-transform"
+              : "wrap grid gap-6 py-24 md:py-36 lg:grid-cols-3"
+          }
+        >
+          <div className={horizontal ? "flex shrink-0 flex-col justify-center lg:w-[34vw] lg:pr-10" : "mb-8 lg:col-span-3"}>
             <p className="t-caption mb-6 text-muted">Как это работает</p>
             <h2 id="how-title" className="t-h1">
               Три шага. <span className="accent">Никаких</span> настроек для бабушки.
@@ -198,8 +205,8 @@ export function HowItWorks() {
             <p className="t-body mt-6 text-ink/70">Рамку настраиваете вы. Бабушке остаётся самое приятное — смотреть, слушать и отвечать.</p>
           </div>
           {CARDS.map(({ n, title, text, Visual }) => (
-            <article key={n} data-card className="card flex shrink-0 flex-col overflow-hidden bg-paper lg:h-[76svh] lg:w-[40vw] lg:max-w-[620px]">
-              <div className="relative h-[300px] flex-1 overflow-hidden bg-[radial-gradient(80%_70%_at_50%_60%,#fff,rgba(255,255,255,0))] px-6 pt-10 lg:h-auto">
+            <article key={n} data-card className={`card flex shrink-0 flex-col overflow-hidden bg-paper ${horizontal ? "lg:h-[76svh] lg:w-[40vw] lg:max-w-[620px]" : ""}`}>
+              <div className={`relative h-[300px] flex-1 overflow-hidden bg-[radial-gradient(80%_70%_at_50%_60%,#fff,rgba(255,255,255,0))] px-6 pt-10 ${horizontal ? "lg:h-auto" : ""}`}>
                 <Visual />
               </div>
               <div className="border-t border-hairline p-7 lg:p-9">
@@ -209,8 +216,8 @@ export function HowItWorks() {
               </div>
             </article>
           ))}
-          <div className="flex shrink-0 items-center lg:w-[30vw]">
-            <p className="t-h3 max-w-[16ch] text-ink lg:pl-6">
+          <div className={horizontal ? "flex shrink-0 items-center lg:w-[30vw]" : "mt-6 lg:col-span-3"}>
+            <p className={`t-h3 text-ink ${horizontal ? "max-w-[16ch] lg:pl-6" : ""}`}>
               Без приложения для бабушки. <span className="text-muted">Без паролей и смартфона.</span>
             </p>
           </div>

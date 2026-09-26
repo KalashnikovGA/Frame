@@ -23,6 +23,6 @@ export function detectCapabilities() {
   if (forced === "static" || forced === "lite" || forced === "full") mode = forced;
 
   document.documentElement.dataset.mode = mode;
-  useStore.setState({ mode, reducedMotion: reducedMotion || mode === "static", mobile });
+  useStore.setState({ mode, reducedMotion, mobile });
   return mode;
 }

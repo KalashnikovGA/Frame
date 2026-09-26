@@ -7,7 +7,7 @@
   --cream: #f4efe7;
   --paper: #fbf8f3;
   --ink: #221a15;
-  --muted: #8a7f74;
+  --muted: #766b60; /* бриф: #8A7F74, затемнён до контраста AA 4.5:1 на кремовом */
   --hairline: #e3dace;
   --oak: #c49a6c;
   --glow: #ffb35c;
@@ -197,8 +197,11 @@ body {
   display: inline-block;
   will-change: transform;
 }
-html.js:not([data-mode="static"]) [data-reveal] {
+html.js:not(.no-motion) [data-reveal] {
   opacity: 0;
+}
+html.js:not(.no-motion) .line > span {
+  transform: translateY(110%);
 }
 
 /* заглушка сцены, пока грузится 3D */

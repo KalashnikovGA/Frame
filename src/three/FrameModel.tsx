@@ -1,8 +1,10 @@
 "use client";
-import { useEffect, useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef } from "react";
+import { useGLTF } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { SPECIES } from "@/config/pricing";
+import { MEDIA } from "@/config/media";
 import { live } from "@/lib/live";
 import type { AnchorName, SceneCtl } from "./ctl";
 import { DIMS, createBodyGeometry, createScreenGeometry } from "./geometry";
@@ -32,7 +34,7 @@ export function FrameModel({ ctl, quality, interactive }: Props) {
   const { camera, size } = useThree();
   const root = useRef<THREE.Group>(null!);
   const tilt = useRef<THREE.Group>(null!);
-  const body = useRef<THREE.Mesh>(null!);
+  const body = useRef<THREE.Group>(null!);
   const ring = useRef<THREE.Mesh>(null!);
   const areaLight = useRef<THREE.RectAreaLight>(null!);
   const pointLight = useRef<THREE.PointLight>(null!);
@@ -190,12 +192,21 @@ export function FrameModel({ ctl, quality, interactive }: Props) {
       <group position={[0, 0, -D.depthBottom / 2]}>
         <group ref={tilt} rotation-x={-D.tilt}>
           <group position={[0, 0, D.depthBottom / 2 - ZC]}>
-            <mesh ref={body} geometry={bodyGeo} material={wood} />
-            <mesh geometry={screenGeo} material={screenMat} position={[0, 0, FRONT + 0.0015]} onClick={onTap}>
-              <mesh ref={ring} position={[0, D.H / 2, 0.003]} material={ringMat} visible={false}>
+            <group ref={body}>
+              {MEDIA.frameModel ? (
+                <Suspense fallback={null}>
+                  <GltfFrame url={MEDIA.frameModel} wood={wood} screen={screenMat} onTap={onTap} />
+                </Suspense>
+              ) : (
+                <>
+                  <mesh geometry={bodyGeo} material={wood} />
+                  <mesh geometry={screenGeo} material={screenMat} position={[0, 0, FRONT + 0.0015]} onClick={onTap} />
+                </>
+              )}
+              <mesh ref={ring} position={[0, D.H / 2, FRONT + 0.005]} material={ringMat} visible={false}>
                 <ringGeometry args={[0.2, 0.215, 64]} />
               </mesh>
-            </mesh>
+            </group>
             {/* светящаяся кромка под основанием */}
             <mesh position={[0, 0.006, FRONT - D.depthBottom * 0.5]} material={stripMat}>
               <boxGeometry args={[D.W * 0.82, 0.012, D.depthBottom * 0.78]} />
@@ -205,4 +216,22 @@ export function FrameModel({ ctl, quality, interactive }: Props) {
       </group>
     </group>
   );
+}
+
+/**
+ * Готовая 3D-модель вместо процедурной (MEDIA.frameModel = "/models/frame.glb").
+ * Ожидается та же система координат: низ в y = 0, лицо смотрит в +z, 1 единица = 10 см.
+ * Меши, в имени которых есть «screen», получают материал экрана, остальные — дерево.
+ */
+function GltfFrame({ url, wood, screen, onTap }: { url: string; wood: THREE.Material; screen: THREE.Material; onTap?: (e: { stopPropagation: () => void }) => void }) {
+  const { scene } = useGLTF(url);
+  const model = useMemo(() => {
+    const c = scene.clone(true);
+    c.traverse((o) => {
+      const m = o as THREE.Mesh;
+      if (m.isMesh) m.material = /screen|экран/i.test(m.name) ? screen : wood;
+    });
+    return c;
+  }, [scene, wood, screen]);
+  return <primitive object={model} onClick={onTap} />;
 }

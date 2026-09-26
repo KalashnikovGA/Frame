@@ -32,10 +32,15 @@ export function SceneSlot({ ctl, fallback, interactive, eager, className = "" }:
     const el = ref.current;
     let idle = 0;
     if (eager) {
+      // первый экран: грузим 3D после загрузки страницы, в свободное время главного потока
       const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
-      idle = w.requestIdleCallback ? w.requestIdleCallback(() => setMounted(true), { timeout: 600 }) : window.setTimeout(() => setMounted(true), 120);
+      const go = () => {
+        idle = w.requestIdleCallback ? w.requestIdleCallback(() => setMounted(true), { timeout: 1200 }) : window.setTimeout(() => setMounted(true), 200);
+      };
+      if (document.readyState === "complete") go();
+      else window.addEventListener("load", go, { once: true });
     }
-    const near = new IntersectionObserver(([e]) => e.isIntersecting && setMounted(true), { rootMargin: "120% 0px" });
+    const near = new IntersectionObserver(([e]) => e.isIntersecting && setMounted(true), { rootMargin: "60% 0px" });
     const vis = new IntersectionObserver(([e]) => setActive(e.isIntersecting), { rootMargin: "10% 0px" });
     near.observe(el);
     vis.observe(el);

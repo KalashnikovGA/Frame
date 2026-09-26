@@ -41,7 +41,6 @@ export function Hero() {
   const status = useStore((s) => s.story);
   const progress = useStore((s) => s.progress);
   const caption = useStore((s) => s.caption);
-  const mode = useStore((s) => s.mode);
   const root = useRef<HTMLElement>(null);
   const [replyHint, setReplyHint] = useState(false);
 
@@ -102,22 +101,23 @@ export function Hero() {
     };
   }, [ctl]);
 
-  // построчное появление заголовка
+  // построчное появление заголовка — сразу после гидрации, не дожидаясь 3D
   useEffect(() => {
-    if (!mode || !root.current) return;
+    if (!root.current) return;
     const ctx = gsap.context(() => {
       const rest = gsap.utils.toArray<HTMLElement>("[data-reveal]");
-      if (mode === "static") {
+      if (document.documentElement.classList.contains("no-motion")) {
         gsap.set(rest, { opacity: 1 });
+        gsap.set(".line > span", { yPercent: 0, y: 0 });
         return;
       }
       gsap
         .timeline({ defaults: { ease: "expo.out" } })
-        .fromTo(".line > span", { yPercent: 110 }, { yPercent: 0, duration: 1.3, stagger: 0.12 })
+        .fromTo(".line > span", { yPercent: 110, y: 0 }, { yPercent: 0, y: 0, duration: 1.3, stagger: 0.12 })
         .fromTo(rest, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 1.1, stagger: 0.08, ease: "power3.out" }, 0.45);
     }, root);
     return () => ctx.revert();
-  }, [mode]);
+  }, []);
 
   const onListen = () => {
     bindTilt();
@@ -191,7 +191,7 @@ export function Hero() {
               {label}
             </button>
           </div>
-          <p data-reveal className="mt-4 hidden text-[14px] text-cream/45 md:block">
+          <p data-reveal className="mt-4 hidden text-[14px] text-cream/55 md:block">
             Предзаказ без оплаты · от {formatPrice(minPrice())}
           </p>
         </div>
@@ -220,7 +220,7 @@ export function Hero() {
             e.preventDefault();
             scrollToId("anatomy");
           }}
-          className="pointer-events-auto absolute bottom-10 left-[var(--gutter)] hidden items-center gap-2 text-[13px] text-cream/45 transition-colors hover:text-cream md:flex"
+          className="pointer-events-auto absolute bottom-10 left-[var(--gutter)] hidden items-center gap-2 text-[13px] text-cream/55 transition-colors hover:text-cream md:flex"
           style={{ opacity: status === "ended" ? 0 : 1 }}
         >
           <span className="rotate-90">

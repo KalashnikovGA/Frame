@@ -67,7 +67,6 @@ export function ThinkOfYou() {
     const tl = gsap.timeline({
       onComplete: () => {
         busy.current = false;
-        setSent((n) => n + 1);
       },
     });
     gsap.set(trail.current, { strokeDasharray: `${len} ${len}`, strokeDashoffset: len, opacity: 1 });
@@ -85,14 +84,14 @@ export function ThinkOfYou() {
             dot.current?.setAttribute("cy", String(pt.y));
             halo.current?.setAttribute("cx", String(pt.x));
             halo.current?.setAttribute("cy", String(pt.y));
-            trail.current?.setAttribute("stroke-dashoffset", String(len * (1 - pos.t)));
+            if (trail.current) trail.current.style.strokeDashoffset = String(len * (1 - pos.t));
           },
         },
         0.1,
       )
       .to(glow.current, { left: 0.25, duration: 1.2, onUpdate: paint }, 0.4)
       .to([dot.current, halo.current], { opacity: 0, duration: 0.3 }, ">-0.1")
-      .to(glow.current, { right: 1.25, duration: 0.35, ease: "power2.out", onUpdate: paint }, "<")
+      .to(glow.current, { right: 1.25, duration: 0.35, ease: "power2.out", onUpdate: paint, onStart: () => setSent((n) => n + 1) }, "<")
       .to(trail.current, { opacity: 0, duration: 1.2 }, "<")
       .to(glow.current, { right: 0.55, duration: 3.5, ease: "power2.out", onUpdate: paint });
   }, [paint, reduced]);
@@ -147,7 +146,7 @@ export function ThinkOfYou() {
             >
               <div className="flex items-baseline justify-between">
                 <p className="t-caption text-cream/70">{r.city}</p>
-                <p className="text-[13px] text-cream/40">{r.who}</p>
+                <p className="text-[13px] text-cream/55">{r.who}</p>
               </div>
               <div className="relative mx-auto w-[62%] max-w-[300px] pb-10">
                 <div ref={r.ref}>
@@ -156,7 +155,7 @@ export function ThinkOfYou() {
                 {r.interactive && (
                   <button
                     type="button"
-                    className="absolute inset-x-[4%] bottom-[calc(2.5rem-14px)] h-[46px] cursor-pointer touch-none select-none rounded-[14px]"
+                    className="absolute inset-x-[4%] bottom-[calc(2.5rem-14px)] z-10 h-[46px] cursor-pointer touch-none select-none rounded-[14px]"
                     style={{ WebkitTouchCallout: "none" }}
                     aria-label="Удерживайте, чтобы сказать «думаю о тебе»"
                     onPointerDown={(e) => {

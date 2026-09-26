@@ -89,9 +89,9 @@ export function Preorder() {
               <ModelPicker tone="dark" source="preorder" />
               <div className="flex items-baseline justify-between border-y border-white/10 py-5">
                 <span className="text-[15px] text-cream/60">
-                  {modelLabel(size, species)} · <span className="text-cream/40">{PRICE_NOTE.toLowerCase()}</span>
+                  {modelLabel(size, species)} · <span className="text-cream/55">{PRICE_NOTE.toLowerCase()}</span>
                 </span>
-                <span className="text-[22px] font-semibold tracking-[-0.02em] tabular-nums">{formatPrice(getPrice(size, species))}</span>
+                <span className="shrink-0 whitespace-nowrap pl-4 text-[22px] font-semibold tracking-[-0.02em] tabular-nums">{formatPrice(getPrice(size, species))}</span>
               </div>
 
               <div>
@@ -137,7 +137,7 @@ export function Preorder() {
                     {errors.contact}
                   </p>
                 ) : (
-                  <p id="po-contact-hint" className="mt-2 text-[13px] text-cream/40">
+                  <p id="po-contact-hint" className="mt-2 text-[13px] text-cream/55">
                     Только чтобы сообщить о старте производства. Без рассылок.
                   </p>
                 )}
@@ -176,7 +176,7 @@ export function Preorder() {
                   Не получилось отправить. Проверьте поля или попробуйте ещё раз через минуту.
                 </p>
               )}
-              <p className="text-center text-[13px] text-cream/40">Предзаказ без оплаты. Сообщим, когда начнём производство.</p>
+              <p className="text-center text-[13px] text-cream/55">Предзаказ без оплаты. Сообщим, когда начнём производство.</p>
             </form>
           )}
         </div>

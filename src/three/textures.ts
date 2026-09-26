@@ -209,7 +209,7 @@ export class ScreenCanvas {
       ctx.fillStyle = grad;
       ctx.fillRect(0, h * 0.62, w, h * 0.38);
 
-      const size = Math.round(w * 0.047);
+      const size = Math.round(w * 0.056);
       ctx.font = `600 ${size}px ${this.fontReady ? '"Cormorant Garamond"' : "Georgia"}, serif`;
       ctx.textAlign = "center";
       ctx.textBaseline = "alphabetic";

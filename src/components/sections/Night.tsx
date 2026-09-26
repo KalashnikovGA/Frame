@@ -27,7 +27,7 @@ function StaticNight() {
 function Copy() {
   return (
     <div>
-      <p className="t-caption mb-6 text-cream/45">Ночью</p>
+      <p className="t-caption mb-6 text-cream/55">Ночью</p>
       <h2 className="t-h1 max-w-[13ch]">
         Тихий <span className="accent">свет,</span> чтобы было видно дорогу
       </h2>

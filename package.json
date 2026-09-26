@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "shots": "node scripts/shot.mjs",
+    "check:interactive": "node scripts/interact.mjs"
   },
   "dependencies": {
     "@fontsource/cormorant-garamond": "^5.3.0",

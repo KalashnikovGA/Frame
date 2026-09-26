@@ -79,9 +79,9 @@ function StaticAnatomy() {
         <ol className="grid gap-8">
           {STEPS.map((s, i) => (
             <li key={s.anchor} className="border-t border-white/10 pt-6">
-              <span className="t-caption text-cream/40">0{i + 1}</span>
+              <span className="t-caption text-cream/55">0{i + 1}</span>
               <p className="t-h3 mt-2">
-                {s.title} <span className="text-cream/45">{s.text}</span>
+                {s.title} <span className="text-cream/55">{s.text}</span>
               </p>
             </li>
           ))}
@@ -227,7 +227,7 @@ export function Anatomy() {
               >
                 <span className="t-caption text-glow/80">0{i + 1} / 05</span>
                 <p className="t-h2 mt-3">
-                  {s.title} <span className="text-cream/45">{s.text}</span>
+                  {s.title} <span className="text-cream/55">{s.text}</span>
                 </p>
               </div>
             ))}

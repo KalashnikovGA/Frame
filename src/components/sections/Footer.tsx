@@ -11,7 +11,7 @@ export function Footer() {
             <p className="mt-3 max-w-[32ch] text-[15px] text-cream/50">Выглядит как обычная рамка. Пока не заговорит.</p>
           </div>
           <div className="grid content-start gap-3 text-[15px]">
-            <p className="t-caption mb-2 text-cream/40">Связаться</p>
+            <p className="t-caption mb-2 text-cream/55">Связаться</p>
             <a href={`mailto:${CONTACTS.email}`} className="text-cream/75 hover:text-cream">
               {CONTACTS.email}
             </a>
@@ -23,7 +23,7 @@ export function Footer() {
             </a>
           </div>
           <div className="grid content-start gap-3 text-[15px]">
-            <p className="t-caption mb-2 text-cream/40">Документы</p>
+            <p className="t-caption mb-2 text-cream/55">Документы</p>
             <Link href="/privacy" className="text-cream/75 hover:text-cream">
               Политика конфиденциальности
             </Link>

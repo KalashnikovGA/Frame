@@ -71,7 +71,7 @@ export function Configurator() {
       <div className="wrap grid items-center gap-10 lg:grid-cols-[1.45fr_1fr] lg:gap-16">
         <div className="card relative h-[58svh] min-h-[340px] overflow-hidden bg-stage-2 lg:h-[76svh]">
           <SceneSlot ctl={ctl} fallback={<StaticPreview />} className="absolute inset-0" />
-          <p className="t-caption pointer-events-none absolute bottom-5 left-6 text-cream/45">
+          <p className="t-caption pointer-events-none absolute bottom-5 left-6 text-cream/55">
             {sizeInfo.label} · экран {sizeInfo.screen}
           </p>
         </div>
@@ -89,21 +89,21 @@ export function Configurator() {
           </div>
           <dl className="mt-8 grid grid-cols-3 gap-4 border-t border-white/10 pt-6 text-[14px]">
             <div>
-              <dt className="text-cream/40">Экран</dt>
+              <dt className="text-cream/55">Экран</dt>
               <dd className="mt-1">{sizeInfo.screen}</dd>
             </div>
             <div>
-              <dt className="text-cream/40">Рамка</dt>
+              <dt className="text-cream/55">Рамка</dt>
               <dd className="mt-1">{sizeInfo.outer}</dd>
             </div>
             <div>
-              <dt className="text-cream/40">Вес</dt>
+              <dt className="text-cream/55">Вес</dt>
               <dd className="mt-1">{sizeInfo.weight}</dd>
             </div>
           </dl>
           <div className="mt-10 flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="text-[13px] text-cream/45">{PRICE_NOTE}</p>
+              <p className="text-[13px] text-cream/55">{PRICE_NOTE}</p>
               <p className="mt-1 text-[40px] font-semibold tracking-[-0.03em] tabular-nums" aria-live="polite">
                 {formatPrice(price)}
               </p>
