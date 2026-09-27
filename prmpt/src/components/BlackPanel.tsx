@@ -36,6 +36,7 @@ export function BlackPanel({ panelRef, wrapRef, cols }: Props) {
                       src={CARDS[idx]}
                       alt={`Archive look ${idx + 1}`}
                       draggable={false}
+                      crossOrigin="anonymous"
                       decoding="async"
                       className="size-full object-cover [-webkit-user-drag:none]"
                     />

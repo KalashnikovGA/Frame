@@ -1,3 +1,6 @@
+// The host sends `Cross-Origin-Resource-Policy: same-origin`, which blocks plain
+// cross-origin <img>/<video> loads, but it also allows CORS — so every element
+// that loads these URLs must set crossOrigin="anonymous".
 export const VIDEO_LEFT = 'https://meez.design/web/media/bg-videos/ms-person.mp4'
 export const VIDEO_RIGHT = 'https://meez.design/web/media/bg-videos/ms-nature-nice.mp4'
 

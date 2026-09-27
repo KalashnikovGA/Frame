@@ -146,6 +146,7 @@ export function VideoCanvas({ ref, isTouch }: Props) {
       <video
         ref={leftRef}
         src={VIDEO_LEFT}
+        crossOrigin="anonymous"
         muted
         playsInline
         preload="auto"
@@ -155,6 +156,7 @@ export function VideoCanvas({ ref, isTouch }: Props) {
       <video
         ref={rightRef}
         src={VIDEO_RIGHT}
+        crossOrigin="anonymous"
         muted
         playsInline
         preload="auto"
